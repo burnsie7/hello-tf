@@ -1,0 +1,14 @@
+[Unit]
+Description=Hello Service
+After=multi-user.target
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/python3 /tmp/hello-world/main.py
+
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=file:/var/log/hello.log
+
+[Install]
+WantedBy=multi-user.target
