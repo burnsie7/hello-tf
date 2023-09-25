@@ -6,6 +6,7 @@ visits = 0
 app = FastAPI()
 @app.get("/")
 async def index():
+   global visits
    visits += 1
    hn = socket.gethostname()
    return {"message": f"Hello World from host: {hn}.  I've had {visits} visits!"}

@@ -12,20 +12,12 @@ data "template_file" "asg_instance_exec" {
   EOF
 }
 
-data "template_file" "test_this" {
-  template = <<-EOF
-      #!/bin/bash
-      echo "Hello, World" > index.html
-      nohup busybox httpd -f -p 8080 &
-    EOF
-}
-
 resource "aws_launch_template" "hello_template" {
   name_prefix   = "hello_template"
   image_id      = var.ami_id
   instance_type = var.instance_size
   key_name      = var.cli_pem
-  user_data     = base64encode(data.template_file.test_this.rendered)
+  user_data     = base64encode(data.template_file.asg_instance_exec.rendered)
   tags = {
     Name = "Launch Template from Tag"
   }
