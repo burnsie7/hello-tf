@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 0.15"
+  required_version = ">= 1.4.7"
   backend "s3" {
     bucket         = "tf-state-labs-bx657"
     key            = "terraform"
@@ -10,7 +10,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 3.38"
+      version = "~> 4.0.0"
     }
   }
 }

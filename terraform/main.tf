@@ -73,6 +73,12 @@ resource "aws_autoscaling_group" "hello_asg" {
     id = aws_launch_template.lt-hello-template.id
   }
 
+  target_group_arns = [aws_lb_target_group.hello_tg.arn]
+
+  lifecycle {
+    ignore_changes = [load_balancers, target_group_arns]
+  }
+
   tag {
     key                 = "Name"
     value               = "Doobie Doodle"
@@ -108,7 +114,7 @@ resource "aws_lb_target_group" "hello_tg" {
 
 resource "aws_autoscaling_attachment" "hello_attachment" {
   autoscaling_group_name = aws_autoscaling_group.hello_asg.id
-  alb_target_group_arn   = aws_lb_target_group.hello_tg.arn
+  lb_target_group_arn    = aws_lb_target_group.hello_tg.arn
 }
 
 resource "aws_security_group" "hello_instance_sg" {
