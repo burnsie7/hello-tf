@@ -44,17 +44,6 @@ module "vpc" {
   enable_dns_support   = true
 }
 
-#resource "aws_instance" "app_server" {
-#  ami           = var.ami_id
-#  instance_type = var.instance_size
-#  key_name      = "pzn_cli"
-#  tags = {
-#    Name = "Individual Instance"
-#  }
-#  user_data_replace_on_change = true
-#  user_data                   = base64encode(data.template_file.asg_instance_exec.rendered)
-#  vpc_security_group_ids      = [aws_security_group.hello_sg.id]
-#}
 
 resource "aws_launch_template" "lt-hello-template" {
   name_prefix            = "lt-${var.prefix}"

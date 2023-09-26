@@ -15,5 +15,5 @@ variable "cli_pem" {
 
 variable "prefix" {
   type    = string
-  default = "wally"
+  default = "harvey"
 }
