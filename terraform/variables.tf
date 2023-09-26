@@ -12,3 +12,8 @@ variable "cli_pem" {
   type    = string
   default = "pzn_cli"
 }
+
+variable "prefix" {
+  type    = string
+  default = "wally"
+}
