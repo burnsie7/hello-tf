@@ -42,7 +42,7 @@ module "vpc" {
 #}
 
 resource "aws_launch_template" "lt-hello-template" {
-  name_prefix            = "lt-hello"
+  name_prefix            = "lt-${var.prefix}"
   image_id               = var.ami_id
   instance_type          = var.instance_size
   vpc_security_group_ids = [aws_security_group.hello_instance_sg.id]
@@ -62,7 +62,7 @@ resource "aws_launch_template" "lt-hello-template" {
 
 
 resource "aws_autoscaling_group" "hello_asg" {
-  name                = "hello-asg"
+  name                = "${var.prefix}-asg"
   min_size            = 3
   max_size            = 5
   desired_capacity    = 3
@@ -81,13 +81,13 @@ resource "aws_autoscaling_group" "hello_asg" {
 
   tag {
     key                 = "Name"
-    value               = "Doobie Doodle"
+    value               = "${var.prefix}-asg-compute-instance"
     propagate_at_launch = true
   }
 }
 
 resource "aws_lb" "hello_asg_lb" {
-  name               = "hello-asg-lb"
+  name               = "${var.prefix}-asg-lb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.hello_sg.id]
@@ -106,7 +106,7 @@ resource "aws_lb_listener" "hello_listener" {
 }
 
 resource "aws_lb_target_group" "hello_tg" {
-  name     = "hello-tg"
+  name     = "${var.prefix}-tg"
   port     = 8000
   protocol = "HTTP"
   vpc_id   = module.vpc.vpc_id
@@ -118,7 +118,7 @@ resource "aws_autoscaling_attachment" "hello_attachment" {
 }
 
 resource "aws_security_group" "hello_instance_sg" {
-  name = "hello-instance-sg"
+  name = "${var.prefix}-instance-sg"
   ingress {
     from_port       = 8000
     to_port         = 8000
@@ -137,7 +137,7 @@ resource "aws_security_group" "hello_instance_sg" {
 }
 
 resource "aws_security_group" "hello_sg" {
-  name = "hello-sg"
+  name = "${var.prefix}-sg"
   ingress {
     from_port   = 8000
     to_port     = 8000
